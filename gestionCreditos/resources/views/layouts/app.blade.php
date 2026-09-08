@@ -56,9 +56,16 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
+                    <!-- Opción Clientes -->
                     <li class="nav-item">
-                        <a class="nav-link active fw-medium" href="{{ route('clientes.index') }}">
+                        <a class="nav-link {{ request()->routeIs('clientes.*') ? 'active' : '' }} fw-medium" href="{{ route('clientes.index') }}">
                             <i class="bi bi-people me-1"></i> Clientes
+                        </a>
+                    </li>
+                    <!-- Opción Créditos -->
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('creditos.*') ? 'active' : '' }} fw-medium" href="{{ route('creditos.index') }}">
+                            <i class="bi bi-card-checklist me-1"></i> Créditos
                         </a>
                     </li>
                 </ul>
