@@ -8,7 +8,7 @@
     <a href="{{ route('clientes.create') }}" class="btn btn-primary">Nuevo Cliente</a>
 </div>
 
-<div class="card shadow-sm">
+<div class="card shadow-sm border-0">
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-hover align-middle">
@@ -38,12 +38,21 @@
                         </td>
                         <td class="text-end">
                             <a href="{{ route('clientes.show', $cliente) }}" class="btn btn-info btn-sm text-white">Ver</a>
-                            <a href="{{ route('clientes.edit', $cliente) }}" class="btn btn-warning btn-sm">Editar</a>
-                            <form action="{{ route('clientes.destroy', $cliente) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Desea eliminar este cliente?');">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn btn-danger btn-sm">Eliminar</button>
-                            </form>
+                            <a href="{{ route('clientes.edit', $cliente) }}" class="btn btn-warning btn-sm text-white">Editar</a>
+                            
+                            @if($cliente->estado == 'activo')
+                                <form action="{{ route('clientes.destroy', $cliente) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Desea desactivar este cliente?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-danger btn-sm">Eliminar</button>
+                                </form>
+                            @else
+                                <form action="{{ route('clientes.activar', $cliente) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Desea reactivar este cliente?');">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button class="btn btn-success btn-sm">Activar</button>
+                                </form>
+                            @endif
                         </td>
                     </tr>
                 @empty
@@ -55,7 +64,6 @@
             </table>
         </div>
 
-        <!-- Links de paginación generados por $clientes = Cliente::orderBy('id', 'desc')->paginate(10) -->
         <div class="d-flex justify-content-end mt-3">
             {{ $clientes->links() }}
         </div>

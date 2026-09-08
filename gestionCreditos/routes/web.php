@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\CreditoController;
+use App\Http\Controllers\PagoController;
 
 // Redirige la raíz al listado de clientes
 Route::get('/', function () {
@@ -17,3 +18,5 @@ Route::resource('clientes', ClienteController::class);
 
 // Rutas estándar del CRUD para créditos
 Route::resource('creditos', CreditoController::class);
+// Rutas estándar del CRUD para pagos
+Route::resource('pagos', PagoController::class);

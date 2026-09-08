@@ -28,4 +28,10 @@ class Credito extends Model
     {
         return $this->belongsTo(Cliente::class, 'clientes_id');
     }
+
+    // Relación con Pagos
+    public function pagos()
+    {
+        return $this->hasMany(Pago::class, 'creditos_id');
+    }
 }

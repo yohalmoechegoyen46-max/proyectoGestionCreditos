@@ -68,6 +68,12 @@
                             <i class="bi bi-card-checklist me-1"></i> Créditos
                         </a>
                     </li>
+                    <!-- Opción Pagos -->
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('pagos.*') ? 'active' : '' }} fw-medium" href="{{ route('pagos.index') }}">
+                            <i class="bi bi-cash-coin me-1"></i> Pagos
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
