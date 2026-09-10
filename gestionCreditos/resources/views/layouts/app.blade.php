@@ -9,86 +9,122 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
-        body {
-            background-color: #f4f6f9;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        :root {
+            --sidebar-width: 250px;
         }
-        .navbar-custom {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        body {
+            background-color: #f8fafc;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+        }
+        /* Sidebar Fijo Lateral */
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+            color: #fff;
+            z-index: 1000;
+            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.05);
+        }
+        .sidebar .brand {
+            font-size: 1.25rem;
+            font-weight: 700;
+            padding: 1.5rem 1.25rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        .sidebar .nav-link {
+            color: #94a3b8;
+            padding: 0.85rem 1.25rem;
+            font-weight: 500;
+            border-radius: 8px;
+            margin: 0.2rem 0.8rem;
+            transition: all 0.2s ease-in-out;
+            display: flex;
+            align-items: center;
+        }
+        .sidebar .nav-link:hover {
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+        .sidebar .nav-link.active {
+            color: #fff;
+            background-color: #4f46e5;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.35);
+        }
+        /* Contenido Principal con Offset */
+        .main-wrapper {
+            margin-left: var(--sidebar-width);
+            padding: 2rem;
+            min-height: 100vh;
         }
         .card-custom {
             border: none;
             border-radius: 12px;
             box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05), 0 4px 6px -2px rgba(0,0,0,0.025);
         }
-        .btn-custom-primary {
-            background-color: #4f46e5;
-            border-color: #4f46e5;
-            color: white;
-            font-weight: 500;
-            border-radius: 8px;
-            transition: all 0.2s;
-        }
-        .btn-custom-primary:hover {
-            background-color: #4338ca;
-            border-color: #4338ca;
-            color: white;
-            transform: translateY(-1px);
-        }
-        .table-custom thead {
-            background-color: #f8fafc;
-            color: #475569;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom mb-4 py-3">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="{{ route('clientes.index') }}">
-                <i class="bi bi-wallet2 me-2 text-primary"></i>Sistema Créditos
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <!-- Opción Clientes -->
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('clientes.*') ? 'active' : '' }} fw-medium" href="{{ route('clientes.index') }}">
-                            <i class="bi bi-people me-1"></i> Clientes
-                        </a>
-                    </li>
-                    <!-- Opción Créditos -->
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('creditos.*') ? 'active' : '' }} fw-medium" href="{{ route('creditos.index') }}">
-                            <i class="bi bi-card-checklist me-1"></i> Créditos
-                        </a>
-                    </li>
-                    <!-- Opción Pagos -->
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('pagos.*') ? 'active' : '' }} fw-medium" href="{{ route('pagos.index') }}">
-                            <i class="bi bi-cash-coin me-1"></i> Pagos
-                        </a>
-                    </li>
-                </ul>
-            </div>
+
+    <!-- Sidebar Lateral -->
+    <aside class="sidebar d-flex flex-column">
+        <a href="{{ route('home') }}" class="brand">
+            <i class="bi bi-wallet2 me-2 text-primary fs-4"></i>
+            <span>Sistema Créditos</span>
+        </a>
+
+        <ul class="nav nav-pills flex-column mt-3">
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">
+                    <i class="bi bi-house-door me-2 fs-5"></i>
+                    <span>Inicio</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('clientes.*') ? 'active' : '' }}" href="{{ route('clientes.index') }}">
+                    <i class="bi bi-people me-2 fs-5"></i>
+                    <span>Clientes</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('creditos.*') ? 'active' : '' }}" href="{{ route('creditos.index') }}">
+                    <i class="bi bi-card-checklist me-2 fs-5"></i>
+                    <span>Créditos</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('pagos.*') ? 'active' : '' }}" href="{{ route('pagos.index') }}">
+                    <i class="bi bi-cash-coin me-2 fs-5"></i>
+                    <span>Pagos</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="mt-auto p-3 text-center border-top border-secondary opacity-50">
+            <small class="text-light">Sistema Créditos &copy; {{ date('Y') }}</small>
         </div>
-    </nav>
+    </aside>
 
-    <div class="container pb-5">
-        @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm rounded-3 mb-4" role="alert">
-                <i class="bi bi-check-circle-fill me-2"></i> {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
+    <!-- Contenido Principal -->
+    <main class="main-wrapper">
+        <div class="container-fluid">
+            @if(session('success'))
+                <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm rounded-3 mb-4" role="alert">
+                    <i class="bi bi-check-circle-fill me-2"></i> {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
 
-        @yield('content')
-    </div>
+            @yield('content')
+        </div>
+    </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

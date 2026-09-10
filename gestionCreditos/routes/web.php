@@ -5,10 +5,10 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\CreditoController;
 use App\Http\Controllers\PagoController;
 
-// Redirige la raíz al listado de clientes
+// Vista principal de inicio (Dashboard)
 Route::get('/', function () {
-    return redirect()->route('clientes.index');
-});
+    return view('home');
+})->name('home');
 
 // Ruta personalizada para reactivar un cliente inactivo
 Route::patch('clientes/{cliente}/activar', [ClienteController::class, 'activar'])->name('clientes.activar');
@@ -18,5 +18,6 @@ Route::resource('clientes', ClienteController::class);
 
 // Rutas estándar del CRUD para créditos
 Route::resource('creditos', CreditoController::class);
+
 // Rutas estándar del CRUD para pagos
 Route::resource('pagos', PagoController::class);
