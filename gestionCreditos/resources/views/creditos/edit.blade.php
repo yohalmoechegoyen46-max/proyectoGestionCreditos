@@ -76,9 +76,7 @@
                         <label for="estado" class="form-label fw-bold text-dark">Estado</label>
                         <select name="estado" id="estado" class="form-select @error('estado') is-invalid @enderror" required>
                             <option value="activo" {{ old('estado', $credito->estado) == 'activo' ? 'selected' : '' }}>Activo</option>
-                            <option value="inactivo" {{ old('estado', $credito->estado) == 'inactivo' ? 'selected' : '' }}>Inactivo</option>
                             <option value="pagado" {{ old('estado', $credito->estado) == 'pagado' ? 'selected' : '' }}>Pagado</option>
-                            <option value="cancelado" {{ old('estado', $credito->estado) == 'cancelado' ? 'selected' : '' }}>Cancelado</option>
                         </select>
                         @error('estado') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>

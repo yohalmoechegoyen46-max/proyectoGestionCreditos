@@ -21,15 +21,26 @@
                 <hr>
 
                 <div class="mb-3">
-                    <p class="mb-1"><strong>Cliente:</strong> {{ $pago->credito->cliente->nombres ?? 'N/A' }} {{ $pago->credito->cliente->apellidos ?? '' }}</p>
+                    <p class="mb-1">
+                        <strong>Cliente:</strong> 
+                        {{ $pago->credito->cliente->nombres ?? 'N/A' }} {{ $pago->credito->cliente->apellidos ?? '' }}
+                    </p>
                     <p class="mb-1"><strong>Crédito Asociado:</strong> #{{ $pago->creditos_id }}</p>
-                    <p class="mb-1"><strong>Saldo Actual del Crédito:</strong> ${{ number_format($pago->credito->saldo, 2) }}</p>
+                    <p class="mb-1">
+                        <strong>Saldo Actual del Crédito:</strong> 
+                        ${{ number_format($pago->credito->saldo ?? 0, 2) }}
+                    </p>
                     <p class="mb-1"><strong>Referencia:</strong> {{ $pago->referencia ?? 'N/A' }}</p>
                     <p class="mb-1"><strong>Observaciones:</strong> {{ $pago->observaciones ?? 'Sin observaciones' }}</p>
                 </div>
 
-                <div class="d-grid mt-4">
-                    <a href="{{ route('pagos.index') }}" class="btn btn-secondary fw-semibold">Volver al Historial</a>
+                <div class="d-grid gap-2 mt-4">
+                    @if(isset($pago->credito->cliente))
+                        <a href="{{ route('clientes.show', $pago->credito->cliente->id) }}" class="btn btn-info text-white fw-semibold">
+                            Volver al Cliente
+                        </a>
+                    @endif
+                    <a href="{{ route('pagos.index') }}" class="btn btn-secondary fw-semibold">Volver al Historial de Pagos</a>
                 </div>
             </div>
         </div>

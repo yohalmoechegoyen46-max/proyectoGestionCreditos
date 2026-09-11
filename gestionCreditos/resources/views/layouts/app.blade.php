@@ -75,18 +75,12 @@
 
     <!-- Sidebar Lateral -->
     <aside class="sidebar d-flex flex-column">
-        <a href="{{ route('home') }}" class="brand">
+        <a href="{{ route('clientes.index') }}" class="brand">
             <i class="bi bi-wallet2 me-2 text-primary fs-4"></i>
             <span>Sistema Créditos</span>
         </a>
 
         <ul class="nav nav-pills flex-column mt-3">
-            <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">
-                    <i class="bi bi-house-door me-2 fs-5"></i>
-                    <span>Inicio</span>
-                </a>
-            </li>
             <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('clientes.*') ? 'active' : '' }}" href="{{ route('clientes.index') }}">
                     <i class="bi bi-people me-2 fs-5"></i>
@@ -107,9 +101,24 @@
             </li>
         </ul>
 
-        <div class="mt-auto p-3 text-center border-top border-secondary opacity-50">
-            <small class="text-light">Sistema Créditos &copy; {{ date('Y') }}</small>
+        <!-- Sección del Usuario Logueado y Cerrar Sesión -->
+        @auth
+        <div class="mt-auto p-3 border-top border-secondary">
+            <div class="d-flex align-items-center mb-2 px-1">
+                <i class="bi bi-person-circle fs-4 me-2 text-primary"></i>
+                <div class="text-truncate">
+                    <span class="fw-semibold d-block text-white small">{{ Auth::user()->name }}</span>
+                    <small class="text-muted d-block" style="font-size: 0.75rem;">Administrador</small>
+                </div>
+            </div>
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="btn btn-outline-danger btn-sm w-100 fw-semibold d-flex align-items-center justify-content-center mt-2">
+                    <i class="bi bi-box-arrow-right me-2"></i> Cerrar Sesión
+                </button>
+            </form>
         </div>
+        @endauth
     </aside>
 
     <!-- Contenido Principal -->

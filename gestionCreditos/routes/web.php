@@ -1,23 +1,24 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\CreditoController;
 use App\Http\Controllers\PagoController;
 
-// Vista principal de inicio (Dashboard)
+// Rutas públicas (Login)
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// Redirección inicial
 Route::get('/', function () {
-    return view('home');
-})->name('home');
+    return redirect()->route('clientes.index');
+});
 
-// Ruta personalizada para reactivar un cliente inactivo
-Route::patch('clientes/{cliente}/activar', [ClienteController::class, 'activar'])->name('clientes.activar');
-
-// Rutas estándar del CRUD para clientes
-Route::resource('clientes', ClienteController::class);
-
-// Rutas estándar del CRUD para créditos
-Route::resource('creditos', CreditoController::class);
-
-// Rutas estándar del CRUD para pagos
-Route::resource('pagos', PagoController::class);
+// Rutas protegidas (Solo con sesión iniciada)
+Route::middleware(['auth'])->group(function () {
+    Route::resource('clientes', ClienteController::class);
+    Route::resource('creditos', CreditoController::class);
+    Route::resource('pagos', PagoController::class);
+});

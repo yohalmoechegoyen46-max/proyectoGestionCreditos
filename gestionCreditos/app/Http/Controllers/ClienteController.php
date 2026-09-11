@@ -38,7 +38,7 @@ class ClienteController extends Controller
 
     public function show(Cliente $cliente)
     {
-        $cliente->load('creditos');
+        $cliente->load('creditos.pagos');
         return view('clientes.show', compact('cliente'));
     }
 
