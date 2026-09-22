@@ -6,6 +6,7 @@ use App\Models\Pago;
 use App\Models\Credito;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PagoController extends Controller
 {
@@ -39,12 +40,18 @@ class PagoController extends Controller
         ]);
 
         DB::transaction(function () use ($request, $credito) {
-            // 1. Guardar el Pago
+            // Generación automática del número de ticket (Ejemplo: TCK-000001)
+            $ultimoPago = Pago::latest('id')->first();
+            $siguienteNumero = $ultimoPago ? ($ultimoPago->id + 1) : 1;
+            $numeroTicket = 'TCK-' . str_pad($siguienteNumero, 6, '0', STR_PAD_LEFT);
+
+            // 1. Guardar el Pago con el ticket generado automáticamente
             Pago::create([
-                'creditos_id' => $request->creditos_id,
-                'fecha_pago' => $request->fecha_pago,
-                'monto10' => $request->monto10,
-                'referencia' => $request->referencia,
+                'creditos_id'   => $request->creditos_id,
+                'fecha_pago'    => $request->fecha_pago,
+                'monto10'       => $request->monto10,
+                'numero_ticket' => $numeroTicket,
+                'referencia'    => $request->referencia ?? 'Efectivo / Ticket Interno',
                 'observaciones' => $request->observaciones,
             ]);
 
@@ -59,7 +66,7 @@ class PagoController extends Controller
         });
 
         return redirect()->route('pagos.index')
-            ->with('success', 'Abono registrado y saldo actualizado correctamente.');
+            ->with('success', 'Abono registrado correctamente.');
     }
 
     public function show(Pago $pago)
@@ -86,5 +93,16 @@ class PagoController extends Controller
 
         return redirect()->route('pagos.index')
             ->with('success', 'Pago anulado correctamente. El saldo fue devuelto al crédito.');
+    }
+
+    public function descargarPDF($id)
+    {
+        $pago = Pago::with('credito.cliente')->findOrFail($id);
+
+        // Carga la vista limpia del ticket y genera el PDF
+        $pdf = Pdf::loadView('pagos.pdf', compact('pago'))
+                  ->setPaper('a6', 'portrait'); // Formato compacto tipo ticket/comprobante
+
+        return $pdf->download('Comprobante_Pago_'.$pago->id.'.pdf');
     }
 }

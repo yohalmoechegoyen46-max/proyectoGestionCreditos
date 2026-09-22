@@ -15,6 +15,7 @@
                 <form action="{{ route('pagos.store') }}" method="POST">
                     @csrf
 
+                    <!-- Selección de Crédito -->
                     <div class="mb-3">
                         <label for="creditos_id" class="form-label fw-bold text-dark">Seleccionar Crédito</label>
                         <select name="creditos_id" id="creditos_id" class="form-select @error('creditos_id') is-invalid @enderror" required>
@@ -26,6 +27,13 @@
                             @endforeach
                         </select>
                         @error('creditos_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
+
+                    <!-- Indicador de Ticket Automático -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-dark">Número de Ticket</label>
+                        <input type="text" class="form-control bg-light text-muted" value="Ticket-Autogenerado" readonly disabled>
+                        <small class="text-muted">El correlativo del ticket se asigna de forma automática en el sistema.</small>
                     </div>
 
                     <div class="row mb-3">
@@ -46,18 +54,11 @@
                         </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="referencia" class="form-label fw-bold text-dark">Referencia / No. Comprobante</label>
-                        <input type="text" name="referencia" id="referencia" 
-                            class="form-control @error('referencia') is-invalid @enderror" 
-                            value="{{ old('referencia') }}" placeholder="Ej. Recibo #00123 / Transferencia">
-                        @error('referencia') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                    </div>
-
                     <div class="mb-4">
                         <label for="observaciones" class="form-label fw-bold text-dark">Observaciones</label>
                         <textarea name="observaciones" id="observaciones" rows="3" 
-                            class="form-control @error('observaciones') is-invalid @enderror">{{ old('observaciones') }}</textarea>
+                            class="form-control @error('observaciones') is-invalid @enderror"
+                            placeholder="Detalles adicionales opcionales...">{{ old('observaciones') }}</textarea>
                         @error('observaciones') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
 

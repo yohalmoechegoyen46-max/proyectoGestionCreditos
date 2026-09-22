@@ -8,6 +8,34 @@
     <a href="{{ route('clientes.create') }}" class="btn btn-primary">Nuevo Cliente</a>
 </div>
 
+<!-- Buscador -->
+<div class="card shadow-sm border-0 mb-3">
+    <div class="card-body">
+        <form action="{{ route('clientes.index') }}" method="GET" class="row g-2">
+            <div class="col-md-10">
+                <div class="input-group">
+                    <span class="input-group-text bg-white text-muted">
+                        <i class="bi bi-search"></i>
+                    </span>
+                    <input type="text" name="buscar" class="form-control" 
+                           placeholder="Buscar cliente por nombre, documento o correo..." 
+                           value="{{ request('buscar') }}">
+                </div>
+            </div>
+            <div class="col-md-2 d-flex gap-2">
+                <button type="submit" class="btn btn-primary w-100 fw-semibold">
+                    Buscar
+                </button>
+                @if(request('buscar'))
+                    <a href="{{ route('clientes.index') }}" class="btn btn-outline-secondary" title="Limpiar filtro">
+                        <i class="bi bi-x-lg"></i>
+                    </a>
+                @endif
+            </div>
+        </form>
+    </div>
+</div>
+
 <div class="card shadow-sm border-0">
     <div class="card-body">
         <div class="table-responsive">
@@ -65,7 +93,7 @@
         </div>
 
         <div class="d-flex justify-content-end mt-3">
-            {{ $clientes->links() }}
+            {{ $clientes->appends(['buscar' => request('buscar')])->links() }}
         </div>
     </div>
 </div>

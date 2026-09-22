@@ -8,7 +8,7 @@
         
         <div class="card border-0 shadow-sm rounded-3">
             <div class="card-header bg-success text-white py-3 text-center">
-                <h5 class="mb-0 fw-bold">Comprobante de Pago #{{ $pago->id }}</h5>
+                <h5 class="mb-0 fw-bold">Comprobante de Pago {{ $pago->numero_ticket ?? '#' . $pago->id }}</h5>
             </div>
 
             <div class="card-body p-4">
@@ -21,6 +21,10 @@
                 <hr>
 
                 <div class="mb-3">
+                    <p class="mb-1">
+                        <strong>Número de Ticket:</strong> 
+                        <span class="badge bg-primary fs-6">{{ $pago->numero_ticket ?? 'N/A' }}</span>
+                    </p>
                     <p class="mb-1">
                         <strong>Cliente:</strong> 
                         {{ $pago->credito->cliente->nombres ?? 'N/A' }} {{ $pago->credito->cliente->apellidos ?? '' }}
@@ -35,6 +39,9 @@
                 </div>
 
                 <div class="d-grid gap-2 mt-4">
+                    <a href="{{ route('pagos.pdf', $pago->id) }}" class="btn btn-danger fw-semibold" target="_blank">
+                        Descargar Comprobante PDF
+                    </a>
                     @if(isset($pago->credito->cliente))
                         <a href="{{ route('clientes.show', $pago->credito->cliente->id) }}" class="btn btn-info text-white fw-semibold">
                             Volver al Cliente

@@ -15,6 +15,7 @@ class Pago extends Model
         'creditos_id',
         'fecha_pago',
         'monto10',
+        'numero_ticket', // <--- Agregado para permitir la asignación masiva
         'referencia',
         'observaciones',
     ];

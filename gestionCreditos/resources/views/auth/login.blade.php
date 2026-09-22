@@ -51,6 +51,13 @@
                         <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">
                             Iniciar Sesión
                         </button>
+                        <!-- Agrega esto debajo del botón de Ingresar en tu login.blade.php -->
+<div class="text-center mt-3">
+    <span class="text-muted">¿No tienes una cuenta?</span>
+    <a href="{{ route('register') }}" class="btn btn-outline-secondary btn-sm ms-2">
+        Registrarse
+    </a>
+</div>
                     </form>
                 </div>
             </div>

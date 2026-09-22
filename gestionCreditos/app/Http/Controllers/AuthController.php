@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -32,6 +34,39 @@ class AuthController extends Controller
         return back()->withErrors([
             'email' => 'El usuario o la contraseña son incorrectos.',
         ])->onlyInput('email');
+    }
+
+    // Mostrar el formulario de Registro
+    public function showRegister()
+    {
+        if (Auth::check()) {
+            return redirect()->route('clientes.index');
+        }
+        return view('auth.register');
+    }
+
+    // Procesar el Registro de Usuario
+    public function register(Request $request)
+    {
+        $request->validate([
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
+        ], [
+            'email.unique'       => 'Este correo electrónico ya está registrado.',
+            'password.confirmed' => 'Las contraseñas no coinciden.',
+            'password.min'       => 'La contraseña debe tener al menos 6 caracteres.',
+        ]);
+
+        $user = User::create([
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        Auth::login($user);
+
+        return redirect()->route('clientes.index')->with('success', '¡Cuenta creada e inicio de sesión exitoso!');
     }
 
     // Cerrar Sesión
