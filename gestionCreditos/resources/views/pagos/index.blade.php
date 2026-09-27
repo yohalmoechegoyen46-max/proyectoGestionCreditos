@@ -10,6 +10,24 @@
 
 <div class="card shadow-sm border-0">
     <div class="card-body">
+
+        <!-- Formulario de Búsqueda -->
+        <form action="{{ route('pagos.index') }}" method="GET" class="mb-4">
+            <div class="input-group">
+                <input type="text" name="buscar" class="form-control" 
+                       placeholder="Buscar por ticket, cliente..." 
+                       value="{{ request('buscar') }}">
+                <button class="btn btn-primary" type="submit">
+                    <i class="bi bi-search"></i> Buscar
+                </button>
+                @if(request('buscar'))
+                    <a href="{{ route('pagos.index') }}" class="btn btn-outline-secondary">
+                        Limpiar
+                    </a>
+                @endif
+            </div>
+        </form>
+
         <div class="table-responsive">
             <table class="table table-hover align-middle">
                 <thead class="table-dark">
@@ -27,7 +45,7 @@
                 @forelse($pagos as $pago)
                     <tr>
                         <td class="fw-bold text-primary">{{ $pago->numero_ticket ?? 'TCK-'.str_pad($pago->id, 6, '0', STR_PAD_LEFT) }}</td>
-                        <td>{{ $pago->fecha_pago }}</td>
+                        <td>{{ \Carbon\Carbon::parse($pago->fecha_pago)->format('d/m/Y') }}</td>
                         <td>{{ $pago->credito->cliente->nombres ?? 'N/A' }} {{ $pago->credito->cliente->apellidos ?? '' }}</td>
                         <td>Crédito #{{ $pago->creditos_id }}</td>
                         <td class="fw-bold text-success">${{ number_format($pago->monto10, 2) }}</td>
@@ -44,7 +62,13 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="7" class="text-center py-4 text-muted">No se han registrado pagos aún.</td>
+                        <td colspan="7" class="text-center py-4 text-muted">
+                            @if(request('buscar'))
+                                No se encontraron pagos que coincidan con "{{ request('buscar') }}".
+                            @else
+                                No se han registrado pagos aún.
+                            @endif
+                        </td>
                     </tr>
                 @endforelse
                 </tbody>

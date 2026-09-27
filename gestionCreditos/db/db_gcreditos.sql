@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-09-2026 a las 03:52:45
+-- Tiempo de generación: 27-09-2026 a las 23:52:28
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -64,14 +64,6 @@ CREATE TABLE `clientes` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Volcado de datos para la tabla `clientes`
---
-
-INSERT INTO `clientes` (`id`, `nombres`, `apellidos`, `documento_identidad`, `telefono`, `correo`, `direccion`, `estado`, `created_at`, `updated_at`) VALUES
-(1, 'Javier Ernesto', 'Crespín Ventura', '069182869', '61240633', 'J@gmail.com', 'Santiago Nonualco', 'activo', '2026-09-11 05:03:40', '2026-09-11 05:03:40'),
-(2, 'Fatima Rocio', 'Guerrero Mena', '623826935', '68953651', 'faty@gmail.com', 'Santiago Nonualco', 'activo', '2026-09-11 21:17:30', '2026-09-11 21:17:30');
-
 -- --------------------------------------------------------
 
 --
@@ -92,13 +84,6 @@ CREATE TABLE `creditos` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Volcado de datos para la tabla `creditos`
---
-
-INSERT INTO `creditos` (`id`, `clientes_id`, `fecha_otorgamiento`, `fecha_vencimiento`, `monto`, `tasa_interes`, `plazo`, `total_credito`, `saldo`, `estado`, `created_at`, `updated_at`) VALUES
-(1, 1, '2026-09-10', '2027-01-10', 500.00, 20.00, 4, 600.00, 350.00, 'activo', '2026-09-11 05:04:40', '2026-09-22 07:26:33');
 
 -- --------------------------------------------------------
 
@@ -193,14 +178,6 @@ CREATE TABLE `pagos` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Volcado de datos para la tabla `pagos`
---
-
-INSERT INTO `pagos` (`id`, `creditos_id`, `fecha_pago`, `monto10`, `numero_ticket`, `referencia`, `observaciones`, `created_at`, `updated_at`) VALUES
-(2, 1, '2026-09-10', 125.00, NULL, '001', 'Primera cuota', '2026-09-11 05:07:08', '2026-09-11 05:07:08'),
-(3, 1, '2026-09-22', 125.00, 'TCK-000003', NULL, 'segunda cuota', '2026-09-22 07:26:33', '2026-09-22 07:26:33');
-
 -- --------------------------------------------------------
 
 --
@@ -233,8 +210,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('nBQMDvzCbLyofpgvia8qm1KiU5H0X0Ot9jVFHql5', 3, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiOGcwc3BKOUdaaWo3ckE4T1NCY0RXWW5maHlmTFgyc3dBZU5idnRSNCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wYWdvcy9jcmVhdGUiO3M6NToicm91dGUiO3M6MTI6InBhZ29zLmNyZWF0ZSI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjM7fQ==', 1790040523),
-('zXhKveotnK4pyviUtcnySyzOKTwIt4r3sursh63a', 3, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36 Edg/153.0.0.0', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiTlIxWTVKNjA3NHN3am9SQ3ZtRUFSa0dMdUVzS1EzbXdxeGU0Ujk1YyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wYWdvcy9jcmVhdGUiO3M6NToicm91dGUiO3M6MTI6InBhZ29zLmNyZWF0ZSI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjM7fQ==', 1790040865);
+('P4pBNvWliM7f4Hy4U88o9w6chj8uiwg5N1cKGIWd', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiS0J5aWQzV2gzRnhxTHNPc2xMS3k3eEJhbnlycFhVOEZDdU5oaUxwYyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9jbGllbnRlcyI7czo1OiJyb3V0ZSI7czoxNDoiY2xpZW50ZXMuaW5kZXgiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO30=', 1790545906);
 
 -- --------------------------------------------------------
 
@@ -258,9 +234,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Administrador', 'admin', NULL, '$2y$12$d5KjzM/bcbp95riol8OPEu.tXB0J5ZAtXWAetkkgZSsp2pQYEugVa', NULL, '2026-09-11 04:46:32', '2026-09-11 04:46:32'),
-(2, 'Javier Crespín', 'jc@gmail.com', NULL, '$2y$12$niA9sogxUvp1x9LgqZZhK.ks8Il3JvlJ/zZh7ocQ2gaFboTAMliwC', NULL, '2026-09-22 07:05:08', '2026-09-22 07:05:08'),
-(3, 'Fatima Guerrero', 'f@gmail.com', NULL, '$2y$12$QCuKoZWev7EblVfKrST9Bu.qGr/BhinG6Kl7FGukCwYMF6dx2w5.S', NULL, '2026-09-22 07:19:12', '2026-09-22 07:19:12');
+(1, 'Admin', 'admin@gmail.com', NULL, '$2y$12$9undYjWR3dLO3yHws17nFu0.5nz107BUw7fgui7uDkIa8/Odtndq2', NULL, '2026-09-28 03:51:45', '2026-09-28 03:51:45');
 
 --
 -- Índices para tablas volcadas
@@ -356,13 +330,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `creditos`
 --
 ALTER TABLE `creditos`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `failed_jobs`
@@ -386,13 +360,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT de la tabla `pagos`
 --
 ALTER TABLE `pagos`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Restricciones para tablas volcadas

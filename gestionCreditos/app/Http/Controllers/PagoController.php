@@ -10,12 +10,25 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class PagoController extends Controller
 {
-    public function index()
-    {
-        $pagos = Pago::with('credito.cliente')->orderBy('id', 'desc')->paginate(10);
-        return view('pagos.index', compact('pagos'));
-    }
+    public function index(Request $request)
+{
+    $buscar = $request->get('buscar');
 
+    $pagos = Pago::with('credito.cliente')
+        ->when($buscar, function ($query, $buscar) {
+            $query->where('numero_ticket', 'like', "%{$buscar}%")
+                ->orWhere('referencia', 'like', "%{$buscar}%")
+                ->orWhereHas('credito.cliente', function ($q) use ($buscar) {
+                    $q->where('nombres', 'like', "%{$buscar}%")
+                      ->orWhere('apellidos', 'like', "%{$buscar}%");
+                });
+        })
+        ->orderBy('id', 'desc')
+        ->paginate(10)
+        ->appends(['buscar' => $buscar]);
+
+    return view('pagos.index', compact('pagos', 'buscar'));
+}
     public function create()
     {
         // Obtiene créditos activos con saldo mayor a 0
@@ -98,10 +111,12 @@ class PagoController extends Controller
     public function descargarPDF($id)
     {
         $pago = Pago::with('credito.cliente')->findOrFail($id);
+        
+        // Forzar la lectura del saldo actualizado en la BD
+        $pago->credito->refresh();
 
-        // Carga la vista limpia del ticket y genera el PDF
         $pdf = Pdf::loadView('pagos.pdf', compact('pago'))
-                  ->setPaper('a6', 'portrait'); // Formato compacto tipo ticket/comprobante
+                  ->setPaper('a6', 'portrait');
 
         return $pdf->download('Comprobante_Pago_'.$pago->id.'.pdf');
     }
