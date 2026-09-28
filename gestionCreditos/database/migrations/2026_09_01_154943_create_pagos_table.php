@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('creditos_id')->constrained('creditos')->onDelete('cascade');
             $table->date('fecha_pago');
-            $table->decimal('monto'. 10 , 2);
+            $table->decimal('monto10', 10, 2);
             $table->string('referencia', 250);
+            $table->string('numero_ticket')->nullable(); 
             $table->string('observaciones', 250)->nullable();
             $table->timestamps();
         });
