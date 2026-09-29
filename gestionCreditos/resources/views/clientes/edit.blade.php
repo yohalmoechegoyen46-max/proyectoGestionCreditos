@@ -3,91 +3,362 @@
 @section('title', 'Editar Cliente')
 
 @section('content')
+
 <div class="row justify-content-center">
+
     <div class="col-md-8">
-        
+
         <div class="card border-0 shadow-sm rounded-3">
+
             <div class="card-header bg-warning text-white py-3">
-                <h5 class="mb-0 fw-bold">Editar Cliente</h5>
+
+                <h5 class="mb-0 fw-bold">
+                    Editar Cliente
+                </h5>
+
             </div>
 
             <div class="card-body p-4">
-                <form action="{{ route('clientes.update', $cliente) }}" method="POST">
+
+                <form action="{{ route('clientes.update', $cliente) }}"
+                      method="POST">
+
                     @csrf
                     @method('PUT')
 
+
+                    {{-- NOMBRES Y APELLIDOS --}}
                     <div class="row mb-3">
+
                         <div class="col-md-6 mb-3 mb-md-0">
-                            <label for="nombres" class="form-label fw-bold text-dark">Nombres</label>
-                            <input type="text" name="nombres" id="nombres" 
-                                class="form-control @error('nombres') is-invalid @enderror" 
-                                value="{{ old('nombres', $cliente->nombres) }}" required>
-                            @error('nombres') <div class="invalid-feedback">{{ $message }}</div> @enderror
+
+                            <label for="nombres"
+                                   class="form-label fw-bold text-dark">
+                                Nombres
+                            </label>
+
+                            <input type="text"
+                                   name="nombres"
+                                   id="nombres"
+                                   class="form-control @error('nombres') is-invalid @enderror"
+                                   value="{{ old('nombres', $cliente->nombres) }}"
+                                   required>
+
+                            @error('nombres')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+
                         </div>
+
 
                         <div class="col-md-6">
-                            <label for="apellidos" class="form-label fw-bold text-dark">Apellidos</label>
-                            <input type="text" name="apellidos" id="apellidos" 
-                                class="form-control @error('apellidos') is-invalid @enderror" 
-                                value="{{ old('apellidos', $cliente->apellidos) }}" required>
-                            @error('apellidos') <div class="invalid-feedback">{{ $message }}</div> @enderror
+
+                            <label for="apellidos"
+                                   class="form-label fw-bold text-dark">
+                                Apellidos
+                            </label>
+
+                            <input type="text"
+                                   name="apellidos"
+                                   id="apellidos"
+                                   class="form-control @error('apellidos') is-invalid @enderror"
+                                   value="{{ old('apellidos', $cliente->apellidos) }}"
+                                   required>
+
+                            @error('apellidos')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+
                         </div>
+
                     </div>
 
+
+                    {{-- DOCUMENTO Y TELÉFONO --}}
                     <div class="row mb-3">
+
                         <div class="col-md-6 mb-3 mb-md-0">
-                            <label for="documento_identidad" class="form-label fw-bold text-dark">Documento de Identidad (DUI)</label>
-                            <input type="text" name="documento_identidad" id="documento_identidad" 
-                                class="form-control @error('documento_identidad') is-invalid @enderror" 
-                                value="{{ old('documento_identidad', $cliente->documento_identidad) }}" required>
-                            @error('documento_identidad') <div class="invalid-feedback">{{ $message }}</div> @enderror
+
+                            <label for="documento_identidad"
+                                   class="form-label fw-bold text-dark">
+                                Documento de Identidad (DUI)
+                            </label>
+
+                            <input type="text"
+                                   name="documento_identidad"
+                                   id="documento_identidad"
+                                   class="form-control @error('documento_identidad') is-invalid @enderror"
+                                   value="{{ old('documento_identidad', $cliente->documento_identidad) }}"
+                                   required>
+
+                            @error('documento_identidad')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+
                         </div>
+
 
                         <div class="col-md-6">
-                            <label for="telefono" class="form-label fw-bold text-dark">Teléfono</label>
-                            <input type="text" name="telefono" id="telefono" 
-                                class="form-control @error('telefono') is-invalid @enderror" 
-                                value="{{ old('telefono', $cliente->telefono) }}" required>
-                            @error('telefono') <div class="invalid-feedback">{{ $message }}</div> @enderror
+
+                            <label for="telefono"
+                                   class="form-label fw-bold text-dark">
+                                Teléfono
+                            </label>
+
+                            <input type="text"
+                                   name="telefono"
+                                   id="telefono"
+                                   class="form-control @error('telefono') is-invalid @enderror"
+                                   value="{{ old('telefono', $cliente->telefono) }}"
+                                   required>
+
+                            @error('telefono')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+
                         </div>
+
                     </div>
 
+
+                    {{-- CORREO --}}
                     <div class="mb-3">
-                        <label for="correo" class="form-label fw-bold text-dark">Correo Electrónico</label>
-                        <input type="email" name="correo" id="correo" 
-                            class="form-control @error('correo') is-invalid @enderror" 
-                            value="{{ old('correo', $cliente->correo) }}" required>
-                        @error('correo') <div class="invalid-feedback">{{ $message }}</div> @enderror
+
+                        <label for="correo"
+                               class="form-label fw-bold text-dark">
+                            Correo Electrónico
+                        </label>
+
+                        <input type="email"
+                               name="correo"
+                               id="correo"
+                               class="form-control @error('correo') is-invalid @enderror"
+                               value="{{ old('correo', $cliente->correo) }}"
+                               required>
+
+                        @error('correo')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+
                     </div>
 
+
+                    {{-- DIRECCIÓN --}}
                     <div class="mb-3">
-                        <label for="direccion" class="form-label fw-bold text-dark">Dirección</label>
-                        <textarea name="direccion" id="direccion" rows="3" 
-                            class="form-control @error('direccion') is-invalid @enderror" required>{{ old('direccion', $cliente->direccion) }}</textarea>
-                        @error('direccion') <div class="invalid-feedback">{{ $message }}</div> @enderror
+
+                        <label for="direccion"
+                               class="form-label fw-bold text-dark">
+                            Dirección
+                        </label>
+
+                        <textarea name="direccion"
+                                  id="direccion"
+                                  rows="3"
+                                  class="form-control @error('direccion') is-invalid @enderror"
+                                  required>{{ old('direccion', $cliente->direccion) }}</textarea>
+
+                        @error('direccion')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+
                     </div>
 
+
+                    {{-- ESTADO --}}
                     <div class="mb-4">
-                        <label for="estado" class="form-label fw-bold text-dark">Estado</label>
-                        <select name="estado" id="estado" class="form-select @error('estado') is-invalid @enderror" required>
-                            <option value="activo" {{ old('estado', $cliente->estado) == 'activo' ? 'selected' : '' }}>Activo</option>
-                            <option value="inactivo" {{ old('estado', $cliente->estado) == 'inactivo' ? 'selected' : '' }}>Inactivo</option>
+
+                        <label for="estado"
+                               class="form-label fw-bold text-dark">
+                            Estado
+                        </label>
+
+                        <select name="estado"
+                                id="estado"
+                                class="form-select @error('estado') is-invalid @enderror"
+                                required>
+
+                            <option value="activo"
+                                {{ old('estado', $cliente->estado) == 'activo' ? 'selected' : '' }}>
+                                Activo
+                            </option>
+
+                            <option value="inactivo"
+                                {{ old('estado', $cliente->estado) == 'inactivo' ? 'selected' : '' }}>
+                                Inactivo
+                            </option>
+
                         </select>
-                        @error('estado') <div class="invalid-feedback">{{ $message }}</div> @enderror
+
+                        @error('estado')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+
                     </div>
 
+
+                    {{-- BOTONES --}}
                     <div class="d-flex gap-2">
-                        <button type="submit" class="btn btn-warning text-white fw-semibold">
+
+                        <button type="submit"
+                                class="btn btn-warning text-white fw-semibold">
+
                             Actualizar Cliente
+
                         </button>
-                        <a href="{{ route('clientes.index') }}" class="btn btn-secondary fw-semibold">
+
+                        <a href="{{ route('clientes.index') }}"
+                           class="btn btn-secondary fw-semibold">
+
                             Cancelar
+
                         </a>
+
                     </div>
+
                 </form>
+
             </div>
+
         </div>
 
     </div>
+
 </div>
+
+
+{{-- ========================================================= --}}
+{{-- MODAL DE ADVERTENCIA --}}
+{{-- ========================================================= --}}
+
+<div class="modal fade"
+     id="modalCreditoPendiente"
+     tabindex="-1"
+     aria-labelledby="modalCreditoPendienteLabel"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-warning">
+
+                <h5 class="modal-title"
+                    id="modalCreditoPendienteLabel">
+
+                    ⚠️ Crédito pendiente
+
+                </h5>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Cerrar">
+                </button>
+
+            </div>
+
+
+            <div class="modal-body text-center">
+
+                <div class="mb-3">
+
+                    <i class="bi bi-exclamation-triangle-fill text-warning"
+                       style="font-size: 3rem;">
+                    </i>
+
+                </div>
+
+                <h5>
+                    No se puede desactivar este cliente.
+                </h5>
+
+                <p class="text-muted">
+
+                    Este cliente tiene un
+                    <strong>crédito pendiente de pago</strong>.
+
+                </p>
+
+                <p class="mb-0">
+
+                    Debes esperar a que el crédito sea
+                    <strong>pagado o cancelado</strong>
+                    antes de poder desactivar al cliente.
+
+                </p>
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <button type="button"
+                        class="btn btn-warning"
+                        data-bs-dismiss="modal">
+
+                    Entendido
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{{-- ========================================================= --}}
+{{-- JAVASCRIPT --}}
+{{-- ========================================================= --}}
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    const estado = document.getElementById('estado');
+
+    const modalElement = document.getElementById('modalCreditoPendiente');
+
+    const modal = new bootstrap.Modal(modalElement);
+
+
+    estado.addEventListener('change', function () {
+
+        if (this.value === 'inactivo') {
+
+            modal.show();
+
+        }
+
+    });
+
+
+    // Cuando se cierre la advertencia,
+    // regresamos el estado a "Activo"
+    modalElement.addEventListener('hidden.bs.modal', function () {
+
+        estado.value = 'activo';
+
+    });
+
+});
+
+</script>
+
 @endsection

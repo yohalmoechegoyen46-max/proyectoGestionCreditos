@@ -21,7 +21,7 @@ class Cliente extends Model
         'estado',
     ];
 
-    // Relación de uno a muchos: Un cliente posee muchos créditos
+    // Un cliente puede tener muchos créditos
     public function creditos()
     {
         return $this->hasMany(Credito::class, 'clientes_id');

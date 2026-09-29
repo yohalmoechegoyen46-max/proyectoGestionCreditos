@@ -11,12 +11,20 @@ class ClienteController extends Controller
     {
         $buscar = $request->get('buscar');
 
-        $clientes = Cliente::when($buscar, function ($query, $buscar) {
-            return $query->where('nombres', 'LIKE', "%{$buscar}%")
-                         ->orWhere('apellidos', 'LIKE', "%{$buscar}%")
-                         ->orWhere('documento_identidad', 'LIKE', "%{$buscar}%")
-                         ->orWhere('correo', 'LIKE', "%{$buscar}%");
-        })->orderBy('id', 'desc')->paginate(10);
+        // Cargar únicamente los créditos activos
+        $clientes = Cliente::with(['creditos' => function ($query) {
+            $query->where('estado', 'activo');
+        }])
+        ->when($buscar, function ($query, $buscar) {
+            return $query->where(function ($q) use ($buscar) {
+                $q->where('nombres', 'LIKE', "%{$buscar}%")
+                  ->orWhere('apellidos', 'LIKE', "%{$buscar}%")
+                  ->orWhere('documento_identidad', 'LIKE', "%{$buscar}%")
+                  ->orWhere('correo', 'LIKE', "%{$buscar}%");
+            });
+        })
+        ->orderBy('id', 'desc')
+        ->paginate(10);
 
         return view('clientes.index', compact('clientes', 'buscar'));
     }
@@ -47,6 +55,7 @@ class ClienteController extends Controller
     public function show(Cliente $cliente)
     {
         $cliente->load('creditos.pagos');
+
         return view('clientes.show', compact('cliente'));
     }
 
@@ -67,6 +76,24 @@ class ClienteController extends Controller
             'estado' => 'required|in:activo,inactivo',
         ]);
 
+        // Si intenta poner al cliente como inactivo,
+        // verificar si tiene un crédito activo.
+        if ($request->estado === 'inactivo') {
+
+            $tieneCreditoActivo = $cliente->creditos()
+                ->where('estado', 'activo')
+                ->exists();
+
+            if ($tieneCreditoActivo) {
+                return redirect()->back()
+                    ->withInput()
+                    ->with(
+                        'error',
+                        'No se puede inactivar este cliente porque tiene un crédito pendiente de pago.'
+                    );
+            }
+        }
+
         $cliente->update($request->all());
 
         return redirect()->route('clientes.index')
@@ -75,7 +102,24 @@ class ClienteController extends Controller
 
     public function destroy(Cliente $cliente)
     {
-        $cliente->update(['estado' => 'inactivo']);
+        // Verificar si tiene un crédito activo
+        $tieneCreditoActivo = $cliente->creditos()
+            ->where('estado', 'activo')
+            ->exists();
+
+        // Si tiene crédito activo, NO permitir desactivar
+        if ($tieneCreditoActivo) {
+            return redirect()->route('clientes.index')
+                ->with(
+                    'error',
+                    'No se puede desactivar este cliente porque tiene un crédito pendiente de pago.'
+                );
+        }
+
+        // Si no tiene crédito activo, desactivar
+        $cliente->update([
+            'estado' => 'inactivo'
+        ]);
 
         return redirect()->route('clientes.index')
             ->with('success', 'Cliente desactivado correctamente.');
@@ -83,7 +127,9 @@ class ClienteController extends Controller
 
     public function activar(Cliente $cliente)
     {
-        $cliente->update(['estado' => 'activo']);
+        $cliente->update([
+            'estado' => 'activo'
+        ]);
 
         return redirect()->route('clientes.index')
             ->with('success', 'Cliente reactivado exitosamente.');
